@@ -5,10 +5,13 @@
  */
 package com.edward.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  * @author ext_ealinares
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Rootobject {
 
     public Rootobject() {

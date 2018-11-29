@@ -17,6 +17,7 @@ public class Datum {
     private String year;
     private String period;
     private String periodName;
+    private String latest;
     private String value;
     private Footnote[] footnotes;
 
@@ -53,6 +54,14 @@ public class Datum {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getLatest() {
+        return latest;
+    }
+
+    public void setLatest(String latest) {
+        this.latest = latest;
     }
 
     public Footnote[] getFootnotes() {

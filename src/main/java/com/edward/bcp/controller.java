@@ -5,11 +5,12 @@
  */
 package com.edward.bcp;
 
-import com.edward.models.Datum;
-import com.edward.models.Rootobject;
+import com.edward.models.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -43,43 +44,44 @@ public class controller {
 
     public int main() {
 
-        List<Datum> myList = new ArrayList<>();
+        List<Series> myList = new ArrayList<>();
 
         myList = doAsyncAddress("CUUR0000SA0");
 
         return 1;
     }
 
-    private List<Datum> doAsyncAddress(String cuuR0000SA0) {
+    private List<Series> doAsyncAddress(String cuuR0000SA0) {
 
         Properties props = new Properties();
-        List<Datum> myList = new ArrayList<>();
+        List<Series> myList = new ArrayList<>();
 
         try {
 
             props.load(new FileInputStream("src/resources/properties/application.properties"));
-          
-            String payload
-                    = "{\"seriesid\":[\"CUUR0000SA0\"],\n"
-                    + "\"startyear\":\"2011\",\n"
-                    + "\"endyear\":\"2014\"}\n";
+
+            StringBuilder payload = new StringBuilder();
+
+            payload.append("{\"seriesid\":[\"CUUR0000SA0\"],\n");
+            payload.append("\"startyear\":\"2011\",\n");
+            payload.append("\"endyear\":\"2014\"}\n");
 
             HttpClient httpClient = HttpClientBuilder.create().build();
             HttpPost request = new HttpPost(props.getProperty("api.timeseries.url").trim());
             request.addHeader(HttpHeaders.AUTHORIZATION, "Basic");
-            StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_JSON);
-
-            request.setEntity(entity);
+            StringEntity entity = new StringEntity(payload.toString(), ContentType.APPLICATION_JSON);
 
             HttpResponse response = httpClient.execute(request);
+            
+            InputStream var = response.getEntity().getContent();
 
             String responseJSON = EntityUtils.toString(response.getEntity());
             ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
             mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
             Rootobject pojo = mapper.readValue(responseJSON, Rootobject.class);
 
-            int x = 0; x = x + 1;
-            
+            myList = pojo.getResults().getSeries();
 
         }
         catch (Exception e) {

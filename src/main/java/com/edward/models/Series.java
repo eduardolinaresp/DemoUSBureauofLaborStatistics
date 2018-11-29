@@ -6,6 +6,7 @@
 package com.edward.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Series {
     
     private String seriesID;
-    private Datum[] data;
+    private ArrayList<Datum> data;
 
     public Series() {
     }
@@ -28,11 +29,11 @@ public class Series {
         this.seriesID = seriesID;
     }
 
-    public Datum[] getData() {
+    public ArrayList<Datum> getData() {
         return data;
     }
 
-    public void setData(Datum[] data) {
+    public void setData(ArrayList<Datum> data) {
         this.data = data;
     }
     

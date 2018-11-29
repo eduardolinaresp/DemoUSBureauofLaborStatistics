@@ -6,7 +6,6 @@
 package com.edward.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 
 /**
@@ -14,16 +13,15 @@ import java.util.ArrayList;
  * @author ext_ealinares
  */
 //@JsonIgnoreProperties(ignoreUnknown = true)
-public class Rootobject {
+public class RootobjectBack {
 
     private String status;
     private int responseTime;
     private Object[] message;
     //   private ArrayList<Results> results;
-    //  @JsonProperty("results")
     private Results results;
 
-    public Rootobject() {
+    public RootobjectBack() {
     }
 
     public String getStatus() {
@@ -50,14 +48,12 @@ public class Rootobject {
         this.message = message;
     }
 
-    // @JsonProperty("results")
     public Results getResults() {
         return results;
     }
 
-    // @JsonProperty("results")
-    public void setResults(Results results) {
-        this.results = results;
+    public void setResults(Results Results) {
+        this.results = Results;
     }
 
     @Override

@@ -20,11 +20,11 @@ public class demousbureauoflaborstatistics {
         controller control = new controller();
 
         if (control.main() > 0) {
-            System.out.println("NOK");
+            System.out.println("OK");
         }
         else {
 
-            System.out.println("OK");
+            System.out.println("NOK");
         }
 
         //  falg4 = CUUR0000SA0P.main();

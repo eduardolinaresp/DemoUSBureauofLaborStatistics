@@ -6,6 +6,7 @@
 package com.edward.bcp;
 
 import com.edward.models.*;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,10 +46,15 @@ public class controller {
     public int main() {
 
         List<Series> myList = new ArrayList<>();
+        int lv_return = 0;
 
         myList = doAsyncAddress("CUUR0000SA0");
 
-        return 1;
+        if (!myList.isEmpty()) {
+            lv_return = 1;
+        }
+        
+        return lv_return;
     }
 
     private List<Series> doAsyncAddress(String cuuR0000SA0) {
@@ -71,6 +77,8 @@ public class controller {
             request.addHeader(HttpHeaders.AUTHORIZATION, "Basic");
             StringEntity entity = new StringEntity(payload.toString(), ContentType.APPLICATION_JSON);
 
+            request.setEntity(entity);
+                    
             HttpResponse response = httpClient.execute(request);
             
             InputStream var = response.getEntity().getContent();
@@ -78,6 +86,7 @@ public class controller {
             String responseJSON = EntityUtils.toString(response.getEntity());
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+            
             mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
             Rootobject pojo = mapper.readValue(responseJSON, Rootobject.class);
 
